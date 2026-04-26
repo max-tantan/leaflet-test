@@ -19,6 +19,26 @@ const zoom = ref(5)
 const center = ref([-2.5489, 118.0149]) // Center of Indonesia
 const mapRef = ref(null)
 
+// Map Styles Configuration
+const mapStyles = {
+  light: {
+    name: 'Light',
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; OpenStreetMap &copy; CARTO'
+  },
+  dark: {
+    name: 'Dark',
+    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; OpenStreetMap &copy; CARTO'
+  },
+  satellite: {
+    name: 'Satellite',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  }
+}
+const activeStyle = ref('light')
+
 // Watch activeLocation prop and flyTo coordinate
 watch(() => props.activeLocation, (newLoc) => {
   if (newLoc && mapRef.value) {
@@ -35,6 +55,23 @@ watch(() => props.activeLocation, (newLoc) => {
 
 <template>
   <div class="h-full w-full relative bg-[#f8fafc]">
+    
+    <!-- Map Style Selector (Floating Top Right) -->
+    <div class="absolute top-6 right-6 z-[1001]">
+      <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col p-1.5 gap-1">
+        <button 
+          v-for="(style, key) in mapStyles" 
+          :key="key"
+          @click="activeStyle = key"
+          class="px-4 py-2 text-[13px] font-medium rounded-xl transition-all text-left flex items-center gap-2"
+          :class="activeStyle === key ? 'bg-blue-50 text-blue-600 shadow-[0_1px_3px_rgba(0,0,0,0.05)]' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'"
+        >
+          <div class="w-2 h-2 rounded-full" :class="key === 'light' ? 'bg-gray-300' : key === 'dark' ? 'bg-gray-800' : 'bg-green-500'"></div>
+          {{ style.name }}
+        </button>
+      </div>
+    </div>
+
     <!-- Map Container -->
     <l-map 
       ref="mapRef"
@@ -47,13 +84,13 @@ watch(() => props.activeLocation, (newLoc) => {
       class="h-full w-full z-0"
       :options="{ zoomControl: false }"
     >
-      <!-- Clean Light Theme Basemap (CartoDB Voyager) -->
+      <!-- Dynamic Basemap Layer -->
       <l-tile-layer
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        :url="mapStyles[activeStyle].url"
         layer-type="base"
-        name="Voyager Light"
+        :name="mapStyles[activeStyle].name"
         :no-wrap="true"
-        attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> &copy; <a href='https://carto.com/attributions'>CARTO</a>"
+        :attribution="mapStyles[activeStyle].attribution"
       />
       
       <!-- Custom Markers Component -->
