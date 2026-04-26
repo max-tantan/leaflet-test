@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue'
-import { LMap, LTileLayer } from '@vue-leaflet/vue-leaflet'
+import { ref, watch, computed } from 'vue'
+import { LMap, LTileLayer, LPolyline } from '@vue-leaflet/vue-leaflet'
 import MapMarker from './MapMarker.vue'
 import 'leaflet/dist/leaflet.css'
 
@@ -15,8 +15,9 @@ const props = defineProps({
   }
 })
 
+// Focus map on Mediterranean / Middle East for Alexander's Route
 const zoom = ref(5)
-const center = ref([-2.5489, 118.0149]) // Center of Indonesia
+const center = ref([35.0, 33.0]) 
 const mapRef = ref(null)
 
 // Map Styles Configuration
@@ -34,17 +35,22 @@ const mapStyles = {
   satellite: {
     name: 'Satellite',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    attribution: 'Tiles &copy; Esri'
   }
 }
 const activeStyle = ref('light')
+
+// Extract coordinates in chronological order for the route line
+const routeCoordinates = computed(() => {
+  return props.locations.map(loc => [loc.lat, loc.lng])
+})
 
 // Watch activeLocation prop and flyTo coordinate
 watch(() => props.activeLocation, (newLoc) => {
   if (newLoc && mapRef.value) {
     const map = mapRef.value.leafletObject
     if (map) {
-      map.flyTo([newLoc.lat, newLoc.lng], 13, {
+      map.flyTo([newLoc.lat, newLoc.lng], 7, { // zoom adjusted to 7 for better historical view
         duration: 1.5,
         easeLinearity: 0.25
       })
@@ -93,6 +99,17 @@ watch(() => props.activeLocation, (newLoc) => {
         :attribution="mapStyles[activeStyle].attribution"
       />
       
+      <!-- Routing Polyline -->
+      <l-polyline 
+        :lat-lngs="routeCoordinates" 
+        color="#3b82f6" 
+        :weight="3"
+        :opacity="0.8"
+        dash-array="8, 8"
+        line-cap="round"
+        line-join="round"
+      />
+
       <!-- Custom Markers Component -->
       <MapMarker 
         v-for="loc in locations" 

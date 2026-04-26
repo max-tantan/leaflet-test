@@ -1,7 +1,8 @@
 export const locations = [
-  { id: 1, name: 'Proyek Alpha', status: 'Active', coords: '06°12\'S 106°50\'E', lat: -6.2088, lng: 106.8456, desc: 'Lokasi fiksi pertama di Jakarta' },
-  { id: 2, name: 'Sektor Beta', status: 'Monitoring', coords: '07°15\'S 112°46\'E', lat: -7.2504, lng: 112.7688, desc: 'Fasilitas rahasia di Surabaya' },
-  { id: 3, name: 'Pos Delta', status: 'Offline', coords: '08°24\'S 115°11\'E', lat: -8.4095, lng: 115.1889, desc: 'Pusat observasi Bali' },
-  { id: 4, name: 'Stasiun Echo', status: 'Active', coords: '01°14\'S 116°51\'E', lat: -1.2379, lng: 116.8529, desc: 'Pusat transmisi Balikpapan' },
-  { id: 5, name: 'Fasilitas Zeta', status: 'Active', coords: '03°19\'S 114°35\'E', lat: -3.3167, lng: 114.5901, desc: 'Bunker bawah tanah Banjarmasin' }
+  { id: 1, name: 'Pella, Macedonia', status: 'Start', coords: '40°45\'N 22°31\'E', lat: 40.7613, lng: 22.5186, desc: 'Tempat kelahiran Alexander dan titik awal kampanye militer besarnya melawan Persia pada tahun 334 SM.' },
+  { id: 2, name: 'Troy, Anatolia', status: 'Visit', coords: '39°57\'N 26°14\'E', lat: 39.9575, lng: 26.2388, desc: 'Alexander mengunjungi situs legendaris Perang Troya untuk menghormati Achilles, pahlawan idolanya.' },
+  { id: 3, name: 'Battle of Issus', status: 'Victory', coords: '36°50\'N 36°10\'E', lat: 36.8375, lng: 36.1625, desc: 'Pertempuran besar melawan Raja Darius III dari Persia. Kemenangan yang membuka jalan penaklukan Timur Tengah.' },
+  { id: 4, name: 'Alexandria, Egypt', status: 'Founded', coords: '31°12\'N 29°54\'E', lat: 31.2001, lng: 29.9187, desc: 'Pendirian kota pelabuhan Alexandria di Mesir yang kelak menjadi pusat ilmu pengetahuan dunia kuno terbesar.' },
+  { id: 5, name: 'Gaugamela', status: 'Victory', coords: '36°21\'N 43°15\'E', lat: 36.3500, lng: 43.2500, desc: 'Kemenangan paling menentukan atas Kekaisaran Akhemeniyah, menumbangkan kekuasaan Persia seutuhnya.' },
+  { id: 6, name: 'Babylon', status: 'End', coords: '32°32\'N 44°25\'E', lat: 32.5363, lng: 44.4208, desc: 'Alexander meninggal secara misterius di istana Nebukadnezar II pada usia 32 tahun, mengakhiri perjalanannya.' }
 ];
